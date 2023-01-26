@@ -149,13 +149,36 @@ int boucle_principal(std::string var, std::istream &flux, std::map<std::string, 
     return 1;
 }
 
-int main()
+int main(int argc, char const *argv[])
 {
+
+    std::string source;
+    std::string cible;
     std::string w1;
     std::string var;
     std::map<std::string, std::string> maptranslate;
     std::vector<std::pair<std::string, std::string>> history;
     std::ofstream fichier;
+
+    std::cout << argc << " : " << argv[0] << std::endl;
+
+    if (argc < 2)
+    {
+        source = "fr";
+        cible = "en";
+    }
+    else if (argc < 3)
+    {
+        source = argv[1];
+        cible = "en";
+    }
+    else
+    {
+        source = argv[1];
+        cible = argv[2];
+    }
+
+    std::cout << source << " : " << cible << std::endl;
 
     while (true)
     {
