@@ -1,6 +1,8 @@
 #pragma once
+#include <Plush.hpp>
 #include <string>
 #include <vector>
+#include <optional>
 
 class PlushStore
 {
@@ -28,7 +30,7 @@ public:
     }
     int get_stock_size() const
     {
-        return _stock_size;
+        return history.size();
     }
     void loan(int wealth)
     {
@@ -54,18 +56,35 @@ public:
             _stock_size += 1;
             _wealth_amount -= plush;
         }
-        history.emplace_back(plush);
-        return plush + this->get_experience();
+        auto new_plush = Plush{plush};
+        history.emplace_back(new_plush);
+        return plush;
     }
+    // return plush + this->get_experience();
 
     int get_experience() const
     {
         return history.size();
     }
 
+    std::optional<Plush> buy(int price)
+    {
+        Plush tmp;
+        for (auto it = history.begin(); it != history.end(); ++it)
+        {
+            if (it->get_cost() < price)
+            {
+                tmp = *it;
+                history.erase(it);
+                return tmp;
+            }
+        }
+        return {};
+    }
+
 private:
     std::string _name;
     int _wealth_amount = 0;
     int _stock_size = 0;
-    std::vector<int> history;
+    std::vector<Plush> history;
 };
