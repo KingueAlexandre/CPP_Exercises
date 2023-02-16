@@ -39,16 +39,30 @@ to_symbol(Attribute attr)
     }
 }
 
-class Monster
+class Monster : public Card
 {
 public:
-    Monster(std::string id, std::string name, Attribute attr, std::string monster_type, int _atk, int _def) : _card{Card{id, Monster}}, _attribute{attr}, _atk{atk}, _def{def}, _monster_type{monster_type}
+    Monster(std::string id, std::string name, Attribute attr, std::string monster_type, int atk, int def) : Card{id, CardType::Monster}, _attribute{attr}, _atk{atk}, _def{def}, _monster_type{monster_type}
     {
-        _card.set_name(name);
+        set_name(name);
+    }
+
+    Attribute get_attribute() const
+    {
+        return _attribute;
+    }
+
+    int get_atk() const
+    {
+        return _atk;
+    }
+
+    int get_def() const
+    {
+        return _def;
     }
 
 private:
-    Card _card;
     Attribute _attribute;
     int _atk;
     int _def;

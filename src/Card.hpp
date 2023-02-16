@@ -28,12 +28,10 @@ to_string(CardType card)
     }
 }
 
-
-
 class Card
 {
 public:
-    Card(std::string id, CardType card) : _id{id}, _type{card}
+    explicit Card(std::string id, CardType card) : _id{id}, _type{card}
     {
         _name = "";
         _description = "";
@@ -75,4 +73,3 @@ private:
     std::string _name;
     std::string _description;
 };
-
