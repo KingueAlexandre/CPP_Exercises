@@ -42,7 +42,7 @@ to_symbol(Attribute attr)
 class Monster : public Card
 {
 public:
-    Monster(std::string id, std::string name, Attribute attr, std::string monster_type, int atk, int def) : Card{id, CardType::Monster}, _attribute{attr}, _atk{atk}, _def{def}, _monster_type{monster_type}
+    Monster(const std::string& id, const std::string &name, const Attribute& attr, std::string monster_type,const int& atk, const int& def) : Card{id, CardType::Monster}, _attribute{attr}, _atk{atk}, _def{def}, _monster_type{monster_type}
     {
         set_name(name);
     }
