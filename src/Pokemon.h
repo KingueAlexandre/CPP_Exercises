@@ -3,6 +3,8 @@
 #include <memory>
 #include <string>
 
+class Trainer;
+
 // A creature that is cute and can fight other ones.
 
 class Pokemon
@@ -14,6 +16,16 @@ public:
 
     Pokemon(const Pokemon &other) : _name{other.name()}, _id{ID++}
     {
+    }
+
+    const Trainer *trainer() const
+    {
+        return _trainer;
+    }
+
+    void set_trainer(const Trainer &trainer)
+    {
+        _trainer = &trainer;
     }
 
     Pokemon &operator=(const Pokemon &other)
@@ -41,6 +53,7 @@ private:
 
     std::string _name;
     const int _id;
+    const Trainer *_trainer = nullptr;
 };
 
 using PokemonPtr = std::unique_ptr<Pokemon>;
