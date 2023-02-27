@@ -1,10 +1,12 @@
 #pragma once
 
+#include "Card.hpp"
+
 #include <string>
+#include <string_view>
+#include <utility>
 
-#include <Card.hpp>
-
-enum Attribute
+enum class Attribute
 {
     Dark,
     Divine,
@@ -12,27 +14,27 @@ enum Attribute
     Fire,
     Light,
     Water,
-    Wind
+    Wind,
 };
 
-std::string
-to_symbol(Attribute attr)
+std::string_view
+to_symbol(const Attribute attr)
 {
     switch (attr)
     {
-    case Dark:
+    case Attribute::Dark:
         return u8"闇";
-    case Divine:
+    case Attribute::Divine:
         return u8"神";
-    case Earth:
+    case Attribute::Earth:
         return u8"地";
-    case Fire:
+    case Attribute::Fire:
         return u8"炎";
-    case Light:
+    case Attribute::Light:
         return u8"光";
-    case Water:
+    case Attribute::Water:
         return u8"水";
-    case Wind:
+    case Attribute::Wind:
         return u8"風";
     default:
         return "";
@@ -42,10 +44,27 @@ to_symbol(Attribute attr)
 class Monster : public Card
 {
 public:
-    Monster(const std::string& id, const std::string &name, const Attribute& attr, std::string monster_type,const int& atk, const int& def) : Card{id, CardType::Monster}, _attribute{attr}, _atk{atk}, _def{def}, _monster_type{monster_type}
+    Monster(std::string id, std::string name, Attribute attr, std::string monster_type, int atk, int def)
+        : Card{std::move(id), CardType::Monster},
+          _attribute{attr},
+          _monster_type{std::move(monster_type)},
+          _atk{atk},
+          _def{def}
     {
-        set_name(name);
+        set_name(std::move(name));
+        _symbol = to_symbol(_attribute);
     }
+
+    // Monster(std::string id, std::string name, Attribute attribute, std::string monster_type, int atk, int def)
+    //     : Card{std::move(id), CardType::Monster},
+    //       _attribute{attribute},
+    //       _monster_type{std::move(monster_type)},
+    //       _atk{atk},
+    //       _def{def}
+    // {
+    //     set_name(std::move(name));
+    //     _symbol = to_symbol(_attribute);
+    // }
 
     Attribute get_attribute() const
     {
@@ -62,9 +81,20 @@ public:
         return _def;
     }
 
+    std::string get_description() const
+    {
+
+        return "[" + _monster_type + "]\n" + Card::get_description() + "\nATK/" + std::to_string(_atk) + " DEF/" + std::to_string(_def) + "";
+    }
+
+    std::string_view get_symbol() const
+    {
+        return _symbol;
+    }
+
 private:
-    Attribute _attribute;
-    int _atk;
-    int _def;
+    Attribute _attribute = {};
     std::string _monster_type;
+    int _atk = 0;
+    int _def = 0;
 };

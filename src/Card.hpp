@@ -1,27 +1,25 @@
 #pragma once
 
 #include <string>
+#include <string_view>
+#include <utility>
 
-enum CardType
+enum class CardType
 {
-    None,
     Monster,
     Spell,
-    Trap
+    Trap,
 };
 
-std::string
-to_string(CardType card)
+inline std::string_view to_string(const CardType card)
 {
     switch (card)
     {
-    case None:
-        return "None";
-    case Trap:
+    case CardType::Trap:
         return "Trap";
-    case Spell:
+    case CardType::Spell:
         return "Spell";
-    case Monster:
+    case CardType::Monster:
         return "Monster";
     default:
         return "";
@@ -31,23 +29,23 @@ to_string(CardType card)
 class Card
 {
 public:
-    explicit Card(std::string id, CardType card) : _id{id}, _type{card}
+    explicit Card(std::string id, CardType card)
+        : _id{std::move(id)},
+          _type{card}
     {
-        _name = "";
-        _description = "";
     }
 
-    std::string get_id() const
+    const std::string &get_id() const
     {
         return _id;
     }
 
-    CardType get_type() const
+    const CardType &get_type() const
     {
         return _type;
     }
 
-    std::string get_name() const
+    const std::string &get_name() const
     {
         return _name;
     }
@@ -59,13 +57,18 @@ public:
 
     void set_name(std::string name)
     {
-        _name = name;
+        _name = std::move(name);
     }
 
     void set_description(std::string description)
     {
-        _description = description;
+        _description = std::move(description);
     }
+
+    const std::string &get_symbol() const { return _symbol; }
+
+protected:
+    std::string _symbol;
 
 private:
     std::string _id;
@@ -73,3 +76,59 @@ private:
     std::string _name;
     std::string _description;
 };
+// #include <string>
+// #include <string_view>
+// #include <utility>
+
+// enum class CardType
+// {
+//     Monster,
+//     Spell,
+//     Trap,
+// };
+
+// inline std::string_view to_string(const CardType type)
+// {
+//     switch (type)
+//     {
+//     case CardType::Monster:
+//         return "Monster";
+
+//     case CardType::Spell:
+//         return "Spell";
+
+//     case CardType::Trap:
+//         return "Trap";
+//     }
+
+//     return "";
+// }
+
+// class Card
+// {
+// public:
+//     explicit Card(std::string id, CardType type)
+//         : _id{std::move(id)}, _type{type}
+//     {
+//     }
+
+//     const std::string &get_id() const { return _id; }
+//     CardType get_type() const { return _type; }
+
+//     const std::string &get_name() const { return _name; }
+//     void set_name(std::string name) { _name = std::move(name); }
+
+//     std::string get_description() const { return _description; }
+//     void set_description(std::string description) { _description = std::move(description); }
+
+//     const std::string &get_symbol() const { return _symbol; }
+
+// protected:
+//     std::string _symbol;
+
+// private:
+//     std::string _id;
+//     CardType _type;
+//     std::string _name;
+//     std::string _description;
+// };
