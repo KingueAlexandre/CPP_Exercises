@@ -5,21 +5,26 @@
 class ObjectNode : public Node
 {
 public:
-    NodeKind kind() { return NodeKind::OBJECT; }
+    NodeKind    kind() { return NodeKind::OBJECT; }
+    std::string print() const override;
 
-    virtual std::string print() const override
-    {
-        std::string res = "{";
-        for (auto elem : _array)
-        {
-            res += elem.print();
-        }
-        return res += "}";
-    }
+    // std::string print() const
+    // {
+    //     std::string res = "{";
+    //     for (auto& elem : _array)
+    //     {
+    //         res += elem->print();
+    //     }
+    //     return res += "}";
+    // }
 
-    static NodePtr make_ptr() { return std::make_unique<ObjectNode>(); }
+    static std::unique_ptr<ArrayNode> make_ptr(std::vector<NodePtr> _array = {});
+
+    void push_back(NodePtr node);
+
+    size_t child_count() { return _array.size(); }
 
 private:
     // std::array<Node> _array;
-    std::vector<Node> _array;
+    std::vector<NodePtr> _array;
 };
