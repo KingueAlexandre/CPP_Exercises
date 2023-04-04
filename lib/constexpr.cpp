@@ -1,10 +1,11 @@
 #include <iostream>
 
-#if false
+#if true
 int main()
 {
     // In the following, we ask whether some line compiles.
     // We mean, if we put it here.
+    f1(true);
 }
 #endif
 
@@ -24,8 +25,8 @@ void f1(bool b)
     }
 }
 // Q1:
-//  - Does line `f1(true)` compiles ?
-//  - Does line `f1(false)` compiles ?
+//  - Does line `f1(true)` compiles ? Non
+//  - Does line `f1(false)` compiles ? Non
 
 /* ========================================================================= */
 template <bool b>
@@ -42,8 +43,8 @@ void f2()
 }
 
 // Q2:
-//  - Does line `f2<true>()` compiles ?
-//  - Does line `f2<false>()` compiles ?
+//  - Does line `f2<true>()` compiles ? Non
+//  - Does line `f2<false>()` compiles ? Non
 
 /* ========================================================================= */
 template <bool b>
@@ -59,8 +60,8 @@ void f3()
     }
 }
 // Q3:
-//  - Does line `f3<true>()` compiles ?
-//  - Does line `f3<false>()` compiles ?
+//  - Does line `f3<true>()` compiles ? Oui
+//  - Does line `f3<false>()` compiles ? Non
 
 /* ========================================================================= */
 void f4(bool b)
@@ -76,8 +77,8 @@ void f4(bool b)
 }
 
 // Q4:
-//  - Does line `f4(true)` compiles ?
-//  - Does line `f3(false)` compiles ?
+//  - Does line `f4(true)` compiles ? Non
+//  - Does line `f3(false)` compiles ? Non
 
 /* ========================================================================= */
 
