@@ -58,13 +58,22 @@ public:
         }
         auto new_plush = Plush{plush};
         history.emplace_back(new_plush);
-        return plush;
+        int bonus = 0;
+        if (this->get_experience() > (this->get_experience() * plush * 1.0) / 100.0)
+        {
+            bonus = this->get_experience();
+        }
+        else
+        {
+            bonus = this->get_experience() * plush / 100;
+        }
+        return plush + bonus;
     }
     // return plush + this->get_experience();
 
     int get_experience() const
     {
-        return history.size();
+        return _stock_size;
     }
 
     std::optional<Plush> buy(int price)
@@ -72,7 +81,7 @@ public:
         Plush tmp;
         for (auto it = history.begin(); it != history.end(); ++it)
         {
-            if (it->get_cost() < price)
+            if (it->get_cost() <= price)
             {
                 tmp = *it;
                 history.erase(it);
